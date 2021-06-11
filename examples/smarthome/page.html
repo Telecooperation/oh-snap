@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html><head>
+
+</head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-orange.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<body>
+	<!-- Sidebar -->
+	<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+		<button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+		<a href="/index.html" class="w3-bar-item w3-button">Home</a>
+		<a href="/settings.html" class="w3-bar-item w3-button">Settings</a>
+		<a href="#" class="w3-bar-item w3-button">Link 3</a>
+	</div>
+
+	<div class="w3-row w3-padding w3-theme-d5 w3-xlarge">
+		<div class="w3-half">
+			<div class="w3-bar">
+				<button class="w3-bar-item w3-button" onclick="w3_open()"><i class="fa fa-bars"></i>
+			</div>
+		</div>
+		<div class="w3-half">
+			<h4>OhSnap WebConfig</h4>
+		</div>
+	</div>
+
+	<div class="w3-container w3-padding-8 w3-theme-d4">
+		<h2>Smart Home Control</h2>
+
+
+	<div class="w3-quarter w3-padding">
+		<h3><center>TV</center></h3>
+		<div><center><img src="tv.png" width="81%"><center></div>
+			<br>
+			<div id="t10val" class="w3-border w3-bar w3-light-grey w3-large">
+						<div id="t10bar" class="w3-green" style="height:24px;width:0"><div id="touch10" style="color:#303030">t10</div></div>
+			</div>
+			<div>
+			Threshold: <input id="threshold10_val" type='number' name='Ts10'>
+			<input type="button" id = "btn_threshold10" onclick="changeThresh10()" value="Change Threshold"/>
+		</div>
+		<div>
+			Message: <input id="t10msg" type='text' name='btn_msg10'>
+			<input type="button" id = "btn_msg10" value="Change Message"/>
+		</div>
+		</div>
+
+
+
+
+	<div class="w3-quarter w3-padding">
+		<h3><center>Lamp</center></h3>
+		<div><center><img src="lamp.png" width="40%"><center></div>
+			<br>
+			<div id="t0val" class="w3-border w3-bar w3-light-grey w3-large">
+						<div id="t0bar" class="w3-green" style="height:24px;width:0"><div id="touch0" style="color:#303030">t0</div></div>
+			</div>
+			<div>
+			Threshold: <input id="threshold0_val" type='number' name='Ts0'>
+			<input type="button" id = "btn_threshold0" value="Change Threshold"/>
+		</div>
+			<div>
+			Message: <input id="t0msg" type='text' name='msg0'>
+			<input type="button" id = "btn_msg0" value="Change Message"/>
+		</div>
+		</div>
+
+
+
+
+	<div class="w3-quarter w3-padding">
+		<h3><center>Sound</center></h3>
+		<div><center><img src="sound.png" width="44%"><center></div>
+			<br>
+			<div id="t1val" class="w3-border w3-bar w3-light-grey w3-large">
+						<div id="t1bar" class="w3-green" style="height:24px;width:0"><div id="touch1" style="color:#303030">t1</div></div>
+			</div>
+			<div>
+			Threshold: <input id="threshold1_val" type='number' name='Ts1'>
+			<input type="button" id = "btn_threshold1" value="Change Threshold"/>
+			</div>
+			<div>
+			Message: <input id="t1msg" type='text' name='msg1'>
+			<input type="button" id = "btn_msg1" value="Change Message"/>
+			</div>
+			</div>
+
+
+<script>
+
+var ajaxRequest = null;
+if (window.XMLHttpRequest)  { ajaxRequest =new XMLHttpRequest(); }
+else                        { ajaxRequest =new ActiveXObject("Microsoft.XMLHTTP"); }
+
+//add EventListeners for Threshold
+document.getElementById("btn_threshold0").addEventListener("click", function(){
+	changeThresh(0, document.getElementById('threshold0_val').value);});
+document.getElementById("btn_threshold1").addEventListener("click", function(){
+	changeThresh(1, document.getElementById('threshold1_val').value);});
+document.getElementById("btn_threshold10").addEventListener("click", function(){
+	changeThresh(10, document.getElementById("threshold10_val").value);});
+
+
+//add EventListeners for MQTT message
+document.getElementById("btn_msg0").addEventListener("click", function(){
+	changeMsg(0, document.getElementById('t0msg').value);});
+document.getElementById("btn_msg1").addEventListener("click", function(){
+	changeMsg(1, document.getElementById('t1msg').value);});
+document.getElementById("btn_msg10").addEventListener("click", function(){
+	changeMsg(10, document.getElementById('t10msg').value);});
+
+function changeMsg(sensor, msg)
+{
+	//alert(msg);
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/chgMsg",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	var message = msg; // msg as parameter did not work as expected
+  ajaxRequest.send(sensor + "=" + message);
+}
+
+
+function changeThresh(sensor, value)
+{
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/chgThresh",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  ajaxRequest.send(sensor + "=" + value);
+}
+
+var t0msg = document.getElementById('t0msg');
+var t1msg = document.getElementById('t1msg');
+var t10msg = document.getElementById('t10msg');
+
+function getSensorData() {
+	var t0bar = document.getElementById("t0bar");
+	var t1bar = document.getElementById("t1bar");
+		var t10bar = document.getElementById("t10bar");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = this.responseText.split(',');
+      //var arr = ["5", "10", "15", "20"];
+			var val0 = parseInt(arr[0]);
+			var val1 = parseInt(arr[1]);
+			var val10 = parseInt(arr[10]);
+      document.getElementById("touch0").innerHTML =
+      val0;
+      document.getElementById("touch1").innerHTML =
+      val1;
+      document.getElementById("touch10").innerHTML =
+			val10;
+			var maxval = 200;
+			t0bar.style.width = (val0/maxval) + "%";
+			t1bar.style.width = (val1/maxval) + "%";
+			t10bar.style.width = (val10/maxval) + "%";
+    }
+  };
+  xhttp.open("GET", "/readTouch", true);
+  xhttp.send();
+}
+
+function getMqttMessages() {
+
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+			//alert("hola");
+      var arr = this.responseText.split(',');
+	//		alert("hola2");
+//      var arr = [5, 10, 15, 20,5, 10, 15, 20,5, 10, 15, 20];
+      t0msg.value = arr[0];
+      t1msg.value = arr[1];
+			t10msg.value = arr[10];
+    }
+  };
+  xhttp.open("GET", "/readMsg", true);
+  xhttp.send();
+}
+
+function getThreshData() {
+	var t0val = document.getElementById("threshold0_val");
+	var t1val = document.getElementById("threshold1_val");
+	var t10val = document.getElementById("threshold10_val");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = this.responseText.split(',');
+      t0val.value = parseInt(arr[0]);
+      t1val.value = parseInt(arr[1]);
+			t10val.value = parseInt(arr[10]);
+    }
+  };
+  xhttp.open("GET", "/readThresh", true);
+  xhttp.send();
+}
+
+setInterval(function() {
+  // Call a function repetatively with 2 Second interval
+  getSensorData();
+}, 500); //mSeconds update rate
+
+getThreshData();
+getMqttMessages();
+
+function w3_open() {
+	document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+	document.getElementById("mySidebar").style.display = "none";
+}
+
+function setObject(ident)
+{
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/setObject",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  ajaxRequest.send("ident=" + ident);
+}
+
+setObject("smarthome");
+
+</script>
+
+
+</body>
+</html>

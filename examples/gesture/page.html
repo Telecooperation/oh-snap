@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html><head>
+
+</head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-orange.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<body>
+
+	<!-- Sidebar -->
+	<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+	  <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+	  <a href="/index.html" class="w3-bar-item w3-button">Home</a>
+	  <a href="/settings.html" class="w3-bar-item w3-button">Settings</a>
+	  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+	</div>
+
+	<div class="w3-row w3-padding w3-theme-d5 w3-xlarge">
+	  <div class="w3-half">
+	    <div class="w3-bar">
+	      <button class="w3-bar-item w3-button" onclick="w3_open()"><i class="fa fa-bars"></i>
+	    </div>
+	  </div>
+	  <div class="w3-half">
+	    <h4>OhSnap WebConfig</h4>
+	  </div>
+	</div>
+
+	<div class="w3-container w3-padding-8 w3-theme-d4">
+	  <h2>HoverBoard</h2>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-half">
+		<div id="t0val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t0bar" class="w3-green" style="height:480px"><div id="touch0" style="color:#303030">t0</div></div>
+		</div>
+	</div>
+
+	<div class="w3-half">
+		<div id="t1val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t1bar" class="w3-green" style="height:480px"><div id="touch1" style="color:#303030">t1</div></div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-half">
+		<div id="t2val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t2bar" class="w3-green" style="height:480px"><div id="touch2" style="color:#303030">t2</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		<div id="t3val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t3bar" class="w3-green" style="height:480px"><div id="touch3" style="color:#303030">t3</div></div>
+		</div>
+	</div>
+</div>
+
+<input type="button" id="btn_calib" value="Calibrate (idle state)" style="font-size : 30px"/>
+
+<script>
+var calibrate = false;
+var btn_calib = document.getElementById("btn_calib");
+btn_calib.addEventListener("click", function(){
+	calibrate = true;
+});
+
+var ajaxRequest = null;
+if (window.XMLHttpRequest)  { ajaxRequest =new XMLHttpRequest(); }
+else                        { ajaxRequest =new ActiveXObject("Microsoft.XMLHTTP"); }
+
+var t0idle = 1620;
+var t1idle = 1930;
+var t2idle = 3350;
+var t3idle = 2920;
+
+var t0range = 300;
+var t1range = 300;
+var t2range = 300;
+var t3range = 300;
+
+function getSensorData() {
+	var t0bar = document.getElementById("t0bar");
+	var t1bar = document.getElementById("t1bar");
+	var t2bar = document.getElementById("t2bar");
+	var t3bar = document.getElementById("t3bar");
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = this.responseText.split(',');
+      document.getElementById("touch0").innerHTML =
+      arr[0];
+      document.getElementById("touch1").innerHTML =
+      arr[1];
+      document.getElementById("touch2").innerHTML =
+      arr[2];
+      document.getElementById("touch3").innerHTML =
+      arr[3];
+
+			if(calibrate){
+				t0idle = parseInt(arr[0]);
+				t1idle = parseInt(arr[1]);
+				t2idle = parseInt(arr[2]);
+				t3idle = parseInt(arr[3]);
+				calibrate = false;
+			}
+
+			if(arr[0] < t0idle){
+				arr[0] = t0idle;
+			}else if(arr[0] > (t0idle+t0range)){
+				arr[0] = (t0idle+t0range);
+			}
+			if(arr[1] < t1idle){
+				arr[1] = t1idle;
+			}else if(arr[1] > (t1idle+t1range)){
+				arr[1] = (t1idle+t1range);
+			}
+			if(arr[2] < t2idle){
+				arr[2] = t2idle;
+			}else if(arr[2] > (t2idle+t2range)){
+				arr[2] = (t2idle+t2range);
+			}
+			if(arr[3] < t3idle){
+				arr[3] = t3idle;
+			}else if(arr[3] > (t3idle+t3range)){
+				arr[3] = (t3idle+t3range);
+			}
+
+			var maxval = 1129;	// 164 represents the max val of 16384 divided by 100 for percentage +++ //112865 new max value
+			t0bar.style.opacity = (arr[0]-t0idle)/(t0range);
+			t1bar.style.opacity = (arr[1]-t1idle)/(t1range);
+			t2bar.style.opacity = (arr[2]-t2idle)/(t2range);
+			t3bar.style.opacity = (arr[3]-t3idle)/(t3range);
+/*
+			if(xmorevalues == 0){
+				//enough values collected, now evaluate
+				for(int pos = 1; pos < VALUECOUNT; pos++){
+					if(valbuf0[pos] > valbuf0[maxpos0]){
+						maxpos0 = pos;
+					}
+					if(valbuf1[pos] > valbuf1[maxpos1]){
+						maxpos1 = pos;
+					}
+					if(valbuf2[pos] > valbuf2[maxpos2]){
+						maxpos2 = pos;
+					}
+					if(valbuf3[pos] > valbuf3[maxpos3]){
+						maxpos3 = pos;
+					}
+				}
+				// max pos found, now compare
+
+				//reset to normal state
+				xmorevalues = -1;
+				maxpos0 = 0;
+				maxpos1 = 0;
+				maxpos2 = 0;
+				maxpos3 = 0;
+			}
+
+			if(xmorevalues > 0 || (arr[0] > thresh0 || arr[1] > thresh1 || arr[2]> thresh2 || arr[3] > thresh3)){
+				valbuf0.push_back(arr[0]);
+				valbuf1.push_back(arr[1]);
+				valbuf2.push_back(arr[2]);
+				valbuf3.push_back(arr[3]);
+				xmorevalues--;
+				valbuf0.shift(); // remove first element
+			}
+*/
+    }
+  };
+  xhttp.open("GET", "/readTouch", true);
+  xhttp.send();
+}
+
+setInterval(function() {
+  getSensorData();
+}, 200); //mSeconds update rate
+
+function w3_open() {
+	document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+	document.getElementById("mySidebar").style.display = "none";
+}
+
+function setObject(ident)
+{
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/setObject",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  ajaxRequest.send("ident=" + ident);
+}
+
+setObject("disablemqtt");
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html><head>
+  <script src="Tone.min.js"></script>
+</head>
+<style>
+.card{
+    max-width: 400px;
+     min-height: 250px;
+     background: #ff0000;
+     padding: 30px;
+     box-sizing: border-box;
+     color: #FFF;
+     margin:20px;
+     box-shadow: 0px 2px 18px -4px rgba(0,0,0,0.75);
+}
+</style>
+<body>
+<h1>Piano Man</h1>
+
+<input type="button" id="btn_mute" value="Enable Sound"/>
+
+<div class="card">
+  <table width = 400>
+    <tr>
+      <td><h1><span id="touch1">0</h1></span></td>
+      <td><h1><span id="touch2">0</h1></span></td>
+      <td><h1><span id="touch3">0</h1></span></td>
+      <td><h1><span id="touch4">0</h1></span></td>
+    </tr>
+</div>
+
+
+
+<script>
+var btn_mute = document.getElementById("btn_mute");
+btn_mute.addEventListener("click", function(){
+  if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+    btn_mute.value = "Disable Sound";
+  }else{
+    Tone.context.suspend();
+    btn_mute.value = "Enable Sound";
+  }
+});
+
+var synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
+  //synth.triggerAttack("C3");
+
+//var volume = new Tone.Volume();
+//volume.set("mute", true);
+//volume.set("volume", -6); // now signal isn’t muted any more
+
+setInterval(function() {
+  // Call a function repetatively with 2 Second interval
+  getData();
+}, 300); //100mSeconds update rate
+
+var t1active = false;
+var t2active = false;
+var t3active = false;
+var t4active = false;
+
+function handleTouchThresh(arr){
+  var thresh = 6000;
+
+if(!t1active && arr[0]>thresh){
+  synth.triggerAttack("C3");
+  t1active = true;
+}else if(t1active && arr[0]<thresh){
+  synth.triggerRelease("C3");
+  t1active = false;
+}
+if(!t2active && arr[1]>thresh){
+  synth.triggerAttack("E3");
+  t2active = true;
+}else if(t2active && arr[1]<thresh){
+  synth.triggerRelease("E3");
+  t2active = false;
+}
+if(!t3active && arr[2]>thresh){
+  synth.triggerAttack("G3");
+  t3active = true;
+}else if(t3active && arr[2]<thresh){
+  synth.triggerRelease("G3");
+  t3active = false;
+}
+if(!t4active && arr[3]>thresh){
+  synth.triggerAttack("C4");
+  t4active = true;
+}else if(t4active && arr[3]<thresh){
+  synth.triggerRelease("C4");
+  t4active = false;
+}
+
+//synth.triggerAttack("C3");
+
+/*
+  if(touchid == 1){
+    if (value<thresh){
+      if(!t1active){
+        synth.triggerAttackRelease("C3", 1);
+        t1active = true;
+      }//otherwise do nothing, it is already active
+    }else{
+      synth.triggerRelease();
+      t1active = false;
+      //alert("released");
+    }
+  }*/
+}
+
+function getData() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = this.responseText.split(',');
+      handleTouchThresh(arr);
+      //var arr = ["5", "10", "15", "20"];
+      document.getElementById("touch1").innerHTML =
+      arr[0];
+      document.getElementById("touch2").innerHTML =
+      arr[1];
+      document.getElementById("touch3").innerHTML =
+      arr[2];
+      document.getElementById("touch4").innerHTML =
+      arr[3];
+    }
+  };
+  xhttp.open("GET", "/readTouch", true);
+  xhttp.send();
+}
+</script>
+</body>
+</html>

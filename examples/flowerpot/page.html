@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+#myProgress {
+	  width: 70px;
+		height: 634px;
+	  background-color: green;
+	}
+
+#myBar {
+	  width: 100%;
+	  height: 0%;
+	  background-color: grey;
+	}
+
+	#wrapper {
+	    overflow: hidden; /* will contain if #first is longer than #second */
+	}
+	#flowerimgdiv {
+	    width: 458px;
+	    float:left; /* add this */
+	}
+	#myProgress {
+	    overflow: hidden; /* if you don't want #second to wrap below #first */
+	}
+
+
+</style>
+</head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-orange.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<body>
+	<!-- Sidebar -->
+	<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+	  <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+	  <a href="/index.html" class="w3-bar-item w3-button">Home</a>
+	  <a href="/settings.html" class="w3-bar-item w3-button">Settings</a>
+	  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+	</div>
+
+	<div class="w3-row w3-padding w3-theme-d5 w3-xlarge">
+	  <div class="w3-half">
+	    <div class="w3-bar">
+	      <button class="w3-bar-item w3-button" onclick="w3_open()"><i class="fa fa-bars"></i>
+	    </div>
+	  </div>
+	  <div class="w3-half">
+	    <h4>OhSnap WebConfig</h4>
+	  </div>
+	</div>
+
+	<div class="w3-container w3-padding-8 w3-theme-d4">
+	  <h2>Flowerpot</h2>
+
+
+	<div id="wrapper" class="w3-row w3-padding w3-theme-d4 w3-xlarge">
+		<div id="flowerimgdiv"><img id="flowerimg" src="flower_3.jpg" width="458" height="634"></div>
+
+		<div id="myProgress">
+		  <div id="myBar"></div>
+		</div>
+<br>
+<div>
+<table>
+<tbody>
+<tr>
+<td>Minimum Value: </td>
+<td><input id="minlvl" type='number' readonly></td>
+</tr>
+<tr>
+<td>Range:</td>
+<td><input id="range" type='number' readonly></td>
+</tr>
+</tbody>
+</table>
+
+<br>
+<div>
+	<input type="button" id="btn_calib_min" value="Calibrate (empty)" style="font-size : 30px"/>
+	<input type="button" id="btn_calib_range" value="Calibrate (full)" style="font-size : 30px"/>
+</div>
+
+</div>
+
+
+
+<script>
+
+var calibrate_min = false;
+var btn_calib_min = document.getElementById("btn_calib_min");
+var calibrate_max = false;
+var btn_calib_max = document.getElementById("btn_calib_range");
+btn_calib_min.addEventListener("click", function(){
+	calibrate_min = true;
+});
+btn_calib_max.addEventListener("click", function(){
+	calibrate_max = true;
+});
+
+var txt_minlvl = document.getElementById('minlvl');
+var txt_range = document.getElementById('range');
+
+var ajaxRequest = null;
+if (window.XMLHttpRequest)  { ajaxRequest =new XMLHttpRequest(); }
+else                        { ajaxRequest =new ActiveXObject("Microsoft.XMLHTTP"); }
+
+var minwaterlvl = 3300;
+var range = 600;
+var lastval = 0;
+
+function getSensorData() {
+	var elem = document.getElementById("myBar");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = this.responseText.split(',');
+			var val = parseInt(arr[1]);
+
+			if (lastval != 0 && !isNaN(lastval)){
+				//smoothing value
+				val += lastval;
+				val = parseInt(val/2);
+				console.log(val);
+			}
+			lastval = val;
+			if(calibrate_min){
+				minwaterlvl = parseInt(arr[1]);
+				calibrate_min = false;
+			}
+
+			if(calibrate_max){
+				range = parseInt(arr[1]) - minwaterlvl;
+				calibrate_max = false;
+			}
+
+			if(val<minwaterlvl){
+				val = minwaterlvl;
+			}else if(val> (minwaterlvl+range)){
+				val = (minwaterlvl+range);
+			}
+			var percentage = (((val - minwaterlvl)*100) / range);
+			elem.style.height = (100 - percentage) + "%";
+
+			//btn_calib_min.text = minwaterlevel;
+			//btn_calib_max.text = range;
+			txt_minlvl.value = minwaterlvl;
+			txt_range.value = range;
+
+			var img = document.getElementById("flowerimg");
+			if(percentage < 20){
+				img.src = "flower_0.jpg";
+			}else if(percentage < 40){
+				img.src = "flower_1.jpg";
+			}else if(percentage < 60){
+				img.src = "flower_2.jpg";
+			}else{
+				img.src = "flower_3.jpg";
+			}
+
+    }
+  };
+  xhttp.open("GET", "/readTouch", true);
+  xhttp.send();
+}
+
+setInterval(function() {
+  // Call a function repetatively with 2 Second interval
+  getSensorData();
+}, 300); //mSeconds update rate
+
+function w3_open() {
+	document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+	document.getElementById("mySidebar").style.display = "none";
+}
+
+function setObject(ident)
+{
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/setObject",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  ajaxRequest.send("ident=" + ident);
+}
+
+setObject("disablemqtt");
+
+</script>
+
+
+</body>
+</html>

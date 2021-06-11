@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html><head>
+
+</head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-orange.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<body>
+	<!-- Sidebar -->
+	<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+		<button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+		<a href="/index.html" class="w3-bar-item w3-button">Home</a>
+		<a href="/settings.html" class="w3-bar-item w3-button">Settings</a>
+		<a href="#" class="w3-bar-item w3-button">Link 3</a>
+	</div>
+
+	<div class="w3-row w3-padding w3-theme-d5 w3-xlarge">
+		<div class="w3-half">
+			<div class="w3-bar">
+				<button class="w3-bar-item w3-button" onclick="w3_open()"><i class="fa fa-bars"></i>
+			</div>
+		</div>
+		<div class="w3-half">
+			<h4>OhSnap WebConfig</h4>
+		</div>
+	</div>
+
+	<div class="w3-container w3-padding-8 w3-theme-d4">
+		<h2>Sensor Monitor + MQTT Settings</h2>
+
+<p>Sensor Values</p>
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t0val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t0bar" class="w3-green" style="height:24px;width:0"><div id="touch0" style="color:#303030">t0</div></div>
+		</div>
+	</div>
+	<div class="w3-quarter">
+		Threshold: <input id="threshold0_val" type='number' name='Ts0'>
+		<input type="button" id = "btn_threshold0" value="Change Threshold T0"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t0msg" type='text' name='msg0'>
+		<input type="button" id = "btn_msg0" value="Change Message T0"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t1val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t1bar" class="w3-green" style="height:24px;width:0"><div id="touch1" style="color:#303030">t1</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold1_val" type='number' name='Ts1'>
+		<input type="button" id = "btn_threshold1" value="Change Threshold T1"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t1msg" type='text' name='msg1'>
+		<input type="button" id = "btn_msg1" value="Change Message T1"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t2val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t2bar" class="w3-green" style="height:24px;width:0"><div id="touch2" style="color:#303030">t2</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold2_val" type='number' name='Ts2'>
+		<input type="button" id = "btn_threshold2" value="Change Threshold T2"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t2msg" type='text' name='msg2'>
+		<input type="button" id = "btn_msg2" value="Change Message T2"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t3val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t3bar" class="w3-green" style="height:24px;width:0"><div id="touch3" style="color:#303030">t3</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold3_val" type='number' name='Ts3'>
+		<input type="button" id = "btn_threshold3" value="Change Threshold S3"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t3msg" type='text' name='msg3'>
+		<input type="button" id = "btn_msg3" value="Change Message T3"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t4val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t4bar" class="w3-green" style="height:24px;width:0"><div id="touch4" style="color:#303030">t4</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold4_val" type='number' name='Ts4'>
+		<input type="button" id = "btn_threshold4" value="Change Threshold S4"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t4msg" type='text' name='msg4'>
+		<input type="button" id = "btn_msg4" value="Change Message T4"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t5val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t5bar" class="w3-green" style="height:24px;width:0"><div id="touch5" style="color:#303030">t5</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold5_val" type='number' name='Ts5'>
+		<input type="button" id = "btn_threshold5" onclick="changeThresh5()" value="Change Threshold S5"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t5msg" type='text' name='msg5'>
+		<input type="button" id = "btn_msg5" value="Change Message T5"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t6val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t6bar" class="w3-green" style="height:24px;width:0"><div id="touch6" style="color:#303030">t6</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold6_val" type='number' name='Ts6'>
+		<input type="button" id = "btn_threshold6" onclick="changeThresh6()" value="Change Threshold S6"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t6msg" type='text' name='msg6'>
+		<input type="button" id = "btn_msg6" value="Change Message T6"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t7val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t7bar" class="w3-green" style="height:24px;width:0"><div id="touch7" style="color:#303030">t7</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold7_val" type='number' name='Ts7'>
+		<input type="button" id = "btn_threshold7" onclick="changeThresh7()" value="Change Threshold S7"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t7msg" type='text' name='msg7'>
+		<input type="button" id = "btn_msg7" value="Change Message T7"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t8val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t8bar" class="w3-green" style="height:24px;width:0"><div id="touch8" style="color:#303030">t8</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold8_val" type='number' name='Ts8'>
+		<input type="button" id = "btn_threshold8" onclick="changeThresh8()" value="Change Threshold S8"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t8msg" type='text' name='msg8'>
+		<input type="button" id = "btn_msg8" value="Change Message T8"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t9val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t9bar" class="w3-green" style="height:24px;width:0"><div id="touch9" style="color:#303030">t9</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold9_val" type='number' name='Ts9'>
+		<input type="button" id = "btn_threshold9" onclick="changeThresh9()" value="Change Threshold S9"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t9msg" type='text' name='msg9'>
+		<input type="button" id = "btn_msg9" value="Change Message T9"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t10val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t10bar" class="w3-green" style="height:24px;width:0"><div id="touch10" style="color:#303030">t10</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold10_val" type='number' name='Ts10'>
+		<input type="button" id = "btn_threshold10" onclick="changeThresh10()" value="Change Threshold S10"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t10msg" type='text' name='btn_msg10'>
+		<input type="button" id = "btn_msg10" value="Change Message T10"/>
+	</div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d3 w3-large">
+	<div class="w3-quarter">
+		<div id="t11val" class="w3-border w3-bar w3-light-grey w3-large">
+					<div id="t11bar" class="w3-green" style="height:24px;width:0"><div id="touch11" style="color:#303030">t11</div></div>
+		</div>
+	</div>
+	<div class="w3-half">
+		Threshold: <input id="threshold11_val" type='number' name='Ts11'>
+		<input type="button" id = "btn_threshold11" onclick="changeThresh11()" value="Change Threshold S11"/>
+	</div>
+	<div class="w3-quarter">
+		Message: <input id="t11msg" type='text' name='msg11'>
+		<input type="button" id = "btn_msg11" value="Change Message T11"/>
+	</div>
+</div>
+
+<script>
+
+var ajaxRequest = null;
+if (window.XMLHttpRequest)  { ajaxRequest =new XMLHttpRequest(); }
+else                        { ajaxRequest =new ActiveXObject("Microsoft.XMLHTTP"); }
+
+//add EventListeners for Threshold
+document.getElementById("btn_threshold0").addEventListener("click", function(){
+	changeThresh(0, document.getElementById('threshold0_val').value);});
+document.getElementById("btn_threshold1").addEventListener("click", function(){
+	changeThresh(1, document.getElementById('threshold1_val').value);});
+document.getElementById("btn_threshold2").addEventListener("click", function(){
+	changeThresh(2, document.getElementById("threshold2_val").value);});
+document.getElementById("btn_threshold3").addEventListener("click", function(){
+	changeThresh(3, document.getElementById("threshold3_val").value);});
+document.getElementById("btn_threshold4").addEventListener("click", function(){
+	changeThresh(4, document.getElementById("threshold4_val").value);});
+document.getElementById("btn_threshold5").addEventListener("click", function(){
+	changeThresh(5, document.getElementById('threshold5_val').value);});
+document.getElementById("btn_threshold6").addEventListener("click", function(){
+	changeThresh(6, document.getElementById('threshold6_val').value);});
+document.getElementById("btn_threshold7").addEventListener("click", function(){
+	changeThresh(7, document.getElementById("threshold7_val").value);});
+document.getElementById("btn_threshold8").addEventListener("click", function(){
+	changeThresh(8, document.getElementById("threshold8_val").value);});
+document.getElementById("btn_threshold9").addEventListener("click", function(){
+	changeThresh(9, document.getElementById("threshold9_val").value);});
+document.getElementById("btn_threshold10").addEventListener("click", function(){
+	changeThresh(10, document.getElementById("threshold10_val").value);});
+document.getElementById("btn_threshold11").addEventListener("click", function(){
+	changeThresh(11, document.getElementById("threshold11_val").value);});
+
+
+//add EventListeners for MQTT message
+document.getElementById("btn_msg0").addEventListener("click", function(){
+	changeMsg(0, document.getElementById('t0msg').value);});
+document.getElementById("btn_msg1").addEventListener("click", function(){
+	changeMsg(1, document.getElementById('t1msg').value);});
+document.getElementById("btn_msg2").addEventListener("click", function(){
+	changeMsg(2, document.getElementById('t2msg').value);});
+document.getElementById("btn_msg3").addEventListener("click", function(){
+	changeMsg(3, document.getElementById('t3msg').value);});
+document.getElementById("btn_msg4").addEventListener("click", function(){
+	changeMsg(4, document.getElementById('t4msg').value);});
+document.getElementById("btn_msg5").addEventListener("click", function(){
+	changeMsg(5, document.getElementById('t5msg').value);});
+document.getElementById("btn_msg6").addEventListener("click", function(){
+	changeMsg(6, document.getElementById('t6msg').value);});
+document.getElementById("btn_msg7").addEventListener("click", function(){
+	changeMsg(7, document.getElementById('t7msg').value);});
+document.getElementById("btn_msg8").addEventListener("click", function(){
+	changeMsg(8, document.getElementById('t8msg').value);});
+document.getElementById("btn_msg9").addEventListener("click", function(){
+	changeMsg(9, document.getElementById('t9msg').value);});
+document.getElementById("btn_msg10").addEventListener("click", function(){
+	changeMsg(10, document.getElementById('t10msg').value);});
+document.getElementById("btn_msg11").addEventListener("click", function(){
+	changeMsg(11, document.getElementById('t11msg').value);});
+
+
+function changeMsg(sensor, msg)
+{
+	//alert(msg);
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/chgMsg",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	var message = msg; // msg as parameter did not work as expected
+  ajaxRequest.send(sensor + "=" + message);
+}
+
+
+function changeThresh(sensor, value)
+{
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/chgThresh",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  ajaxRequest.send(sensor + "=" + value);
+}
+
+function getSensorData() {
+	var t0bar = document.getElementById("t0bar");
+	var t1bar = document.getElementById("t1bar");
+	var t2bar = document.getElementById("t2bar");
+	var t3bar = document.getElementById("t3bar");
+	var t4bar = document.getElementById("t4bar");
+	var t5bar = document.getElementById("t5bar");
+	var t6bar = document.getElementById("t6bar");
+	var t7bar = document.getElementById("t7bar");
+	var t8bar = document.getElementById("t8bar");
+	var t9bar = document.getElementById("t9bar");
+	var t10bar = document.getElementById("t10bar");
+	var t11bar = document.getElementById("t11bar");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = this.responseText.split(',');
+      //var arr = ["5", "10", "15", "20"];
+      document.getElementById("touch0").innerHTML =
+      arr[0];
+      document.getElementById("touch1").innerHTML =
+      arr[1];
+      document.getElementById("touch2").innerHTML =
+      arr[2];
+      document.getElementById("touch3").innerHTML =
+      arr[3];
+			document.getElementById("touch4").innerHTML =
+			arr[4];
+			document.getElementById("touch5").innerHTML =
+			arr[5];
+			document.getElementById("touch6").innerHTML =
+			arr[6];
+			document.getElementById("touch7").innerHTML =
+			arr[7];
+			document.getElementById("touch8").innerHTML =
+			arr[8];
+			document.getElementById("touch9").innerHTML =
+			arr[9];
+			document.getElementById("touch10").innerHTML =
+			arr[10];
+			document.getElementById("touch11").innerHTML =
+			arr[11];
+			var maxval = 1129;	// 164 represents the max val of 16384 divided by 100 for percentage +++ //112865 new max value
+			t0bar.style.width = (arr[0]/maxval) + "%";
+			t1bar.style.width = (arr[1]/maxval) + "%";
+			t2bar.style.width = (arr[2]/maxval) + "%";
+			t3bar.style.width = (arr[3]/maxval) + "%";
+			t4bar.style.width = (arr[4]/maxval) + "%";
+			t5bar.style.width = (arr[5]/maxval) + "%";
+			t6bar.style.width = (arr[6]/maxval) + "%";
+			t7bar.style.width = (arr[7]/maxval) + "%";
+			t8bar.style.width = (arr[8]/maxval) + "%";
+			t9bar.style.width = (arr[9]/maxval) + "%";
+			t10bar.style.width = (arr[10]/maxval) + "%";
+			t11bar.style.width = (arr[11]/maxval) + "%";
+    }
+  };
+  xhttp.open("GET", "/readTouch", true);
+  xhttp.send();
+}
+
+function getMqttMessages() {
+	var t0msg = document.getElementById('t0msg');
+	var t1msg = document.getElementById('t1msg');
+	var t2msg = document.getElementById('t2msg');
+	var t3msg = document.getElementById('t3msg');
+	var t4msg = document.getElementById('t4msg');
+	var t5msg = document.getElementById('t5msg');
+	var t6msg = document.getElementById('t6msg');
+	var t7msg = document.getElementById('t7msg');
+	var t8msg = document.getElementById('t8msg');
+	var t9msg = document.getElementById('t9msg');
+	var t10msg = document.getElementById('t10msg');
+	var t11msg = document.getElementById('t11msg');
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+			//alert("hola");
+      var arr = this.responseText.split(',');
+	//		alert("hola2");
+//      var arr = [5, 10, 15, 20,5, 10, 15, 20,5, 10, 15, 20];
+      t0msg.value = arr[0];
+      t1msg.value = arr[1];
+      t2msg.value = arr[2];
+      t3msg.value = arr[3];
+			t4msg.value = arr[4];
+			t5msg.value = arr[5];
+			t6msg.value = arr[6];
+			t7msg.value =	arr[7];
+			t8msg.value = arr[8];
+			t9msg.value =	arr[9];
+			t10msg.value = arr[10];
+			t11msg.value = arr[11];
+    }
+  };
+  xhttp.open("GET", "/readMsg", true);
+  xhttp.send();
+}
+
+function getThreshData() {
+	var t0val = document.getElementById("threshold0_val");
+	var t1val = document.getElementById("threshold1_val");
+	var t2val = document.getElementById("threshold2_val");
+	var t3val = document.getElementById("threshold3_val");
+	var t4val = document.getElementById("threshold4_val");
+	var t5val = document.getElementById("threshold5_val");
+	var t6val = document.getElementById("threshold6_val");
+	var t7val = document.getElementById("threshold7_val");
+	var t8val = document.getElementById("threshold8_val");
+	var t9val = document.getElementById("threshold9_val");
+	var t10val = document.getElementById("threshold10_val");
+	var t11val = document.getElementById("threshold11_val");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+			//alert("hola");
+      var arr = this.responseText.split(',');
+	//		alert("hola2");
+//      var arr = [5, 10, 15, 20,5, 10, 15, 20,5, 10, 15, 20];
+      t0val.value = arr[0];
+      t1val.value = arr[1];
+      t2val.value = arr[2];
+      t3val.value = arr[3];
+			t4val.value = arr[4];
+			t5val.value = arr[5];
+			t6val.value = arr[6];
+			t7val.value =	arr[7];
+			t8val.value = arr[8];
+			t9val.value =	arr[9];
+			t10val.value = arr[10];
+			t11val.value = arr[11];
+    }
+  };
+  xhttp.open("GET", "/readThresh", true);
+  xhttp.send();
+}
+
+setInterval(function() {
+  // Call a function repetatively with 2 Second interval
+  getSensorData();
+}, 500); //mSeconds update rate
+
+getThreshData();
+getMqttMessages();
+
+function w3_open() {
+	document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+	document.getElementById("mySidebar").style.display = "none";
+}
+
+function setObject(ident)
+{
+  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+  ajaxRequest.open("POST","/setObject",true);
+
+  ajaxRequest.onreadystatechange = function()
+  {
+    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+    {
+      var ajaxResult = ajaxRequest.responseText;
+    }
+  }
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  ajaxRequest.send("ident=" + ident);
+}
+
+setObject("monitor");
+
+</script>
+
+
+</body>
+</html>

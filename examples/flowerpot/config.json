@@ -1,0 +1,107 @@
+{
+	"name": "Flowerpot",
+	"description": "Monitor the water level of your flower.",
+	"defgteq": true,
+	"defthreshold": 10000,
+	"defmintriggertime": 50,
+	"defretrigger": false,
+	"defcmd": "hello there!",
+	"sensors":	[
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/motti/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mbedroom/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mpcpower/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/motti/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mbedroom/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mpcpower/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/motti/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mbedroom/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mpcpower/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/motti/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 5000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mbedroom/power",
+			"msg": "toggle"
+		},
+		{
+			"isactive": false,
+			"gteq": true,
+			"threshold": 8000,
+			"mintriggertime": 50,
+			"topic": "cmnd/mpcpower/power",
+			"msg": "toggle"
+		}
+	]
+}

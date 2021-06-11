@@ -1,0 +1,9 @@
+{
+	"mqttgeneral":	{
+		"srvip": "192.168.43.156",
+		"srvport": 1883,
+		"infotopic": "ohsnap_info",
+		"infointerval": 1000,
+		"activeobj": 0
+	}
+}

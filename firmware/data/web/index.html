@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<style>
+p.a {
+  font-family: "Verdana", Verdana, sans-serif;
+}
+	</style>
+</head>
+<title>OhSnap WebConfig</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-orange.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+  <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+  <a href="#" class="w3-bar-item w3-button">Home</a>
+  <a href="settings.html" class="w3-bar-item w3-button">Settings</a>
+  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d5 w3-xlarge">
+  <div class="w3-half">
+    <div class="w3-bar">
+      <button class="w3-bar-item w3-button" onclick="w3_open()"><i class="fa fa-bars"></i>
+    </div>
+  </div>
+  <div class="w3-half">
+    <h4>OhSnap WebConfig</h4>
+  </div>
+</div>
+
+<div class="w3-container w3-padding-8 w3-theme-d4">
+  <h2>Plug & Sense Objects</h2>
+
+</div>
+	<div w3-include-html="/objindex"></div>
+</div>
+
+<div class="w3-row w3-padding w3-theme-d5 w3-large">
+	<div class="w3-quarter">
+		<p>OhSnap Web Configuration v1.0</p>
+	</div>
+	<div class="w3-quarter">
+		<center><p id="batteryval">battery level: retrieving...</p></center>
+		<div class="w3-border w3-bar w3-light-grey w3-large">
+			<div id="batterybar" class="w3-blue" style="height:24px;width:0%"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+var ajaxRequest = null;
+if (window.XMLHttpRequest)  { ajaxRequest =new XMLHttpRequest(); }
+else                        { ajaxRequest =new ActiveXObject("Microsoft.XMLHTTP"); }
+
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+function getInfoData(){
+	var batterybar = document.getElementById("batterybar");
+	var batteryval = document.getElementById("batteryval");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+			batterybar.style.width = this.responseText + "%";
+			batteryval.innerHTML = "battery level: " + this.responseText + "%";
+    }
+  };
+  xhttp.open("GET", "readInfo", true);
+  xhttp.send();
+}
+
+setInterval(function() {
+  getInfoData();
+}, 5000);
+
+
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /* Loop through a collection of all HTML elements: */
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      /* Make an HTTP request using the attribute value as the file name: */
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /* Remove the attribute, and call this function once more: */
+          elmnt.removeAttribute("w3-include-html");
+          includeHTML();
+        }
+      }
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /* Exit the function: */
+      return;
+    }
+  }
+}
+
+includeHTML();
+
+function setObject(ident)
+{
+	if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+	ajaxRequest.open("POST","/setObject",true);
+
+	ajaxRequest.onreadystatechange = function()
+	{
+		if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+		{
+			var ajaxResult = ajaxRequest.responseText;
+		}
+	}
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxRequest.send("ident=" + ident);
+}
+
+setObject("disablemqtt");
+
+</script>
+
+</body>
+</html>

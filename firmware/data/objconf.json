@@ -1,0 +1,23 @@
+{
+	"objs":	{
+		"piano":	{
+			"objname": "Piano",
+			"objdesc": "A very simple piano with a very simple description.",
+			"image": "piano_3d.png",
+			"mqttconf": "pianoconf",
+			"touch": {
+					"t1": {
+						"name":	"trigger1",
+						"xpos": 50,
+						"ypos": 10
+						},
+					"t2":	{
+						"name": "trigger2",
+						"xpos": 10,
+						"ypos": 50
+						}
+			}
+		}
+	}
+
+}

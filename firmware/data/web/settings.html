@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<style>
+p.a {
+  font-family: "Verdana", Verdana, sans-serif;
+}
+	</style>
+</head>
+<title>OhSnap Settings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-orange.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+  <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+  <a href="index.html" class="w3-bar-item w3-button">Home</a>
+  <a href="settings.html" class="w3-bar-item w3-button">Settings</a>
+  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+</div>
+
+
+<div class="w3-row w3-padding w3-theme-d5 w3-xlarge">
+  <div class="w3-half">
+    <div class="w3-bar">
+      <button class="w3-bar-item w3-button" onclick="w3_open()"><i class="fa fa-bars"></i>
+    </div>
+  </div>
+  <div class="w3-half">
+    <h4>OhSnap Settings</h4>
+  </div>
+</div>
+
+<h5>Wi-Fi settings</h5>
+<input id="wifiname" placeholder="Wi-Fi SSID">
+<input id="wifipwd" type='password' placeholder="Wi-Fi password">
+<input type="button" id = "btn_wifi_cred" value="Set Wi-Fi credentials"/>
+
+<h5>MQTT general settings</h5>
+<input id="mqtt_ip" placeholder="MQTT broker IP">
+<input id="mqtt_port" placeholder="MQTT broker port">
+<input type="button" id = "btn_mqtt_broker" value="Set MQTT broker"/>
+<br><br>
+<input id="mqtt_info_topic" placeholder="MQTT info topic">
+<input id="mqtt_info_msg" placeholder="MQTT info message">
+<input type="button" id = "btn_mqtt_info" value="Set MQTT info topic + message"/>
+
+<h5>Firmware Update</h5>
+<form method='POST' action='/update' enctype='multipart/form-data'><input type='file' name='update'><input type='submit' value='Update'></form>
+
+<script>
+
+	var ajaxRequest = null;
+	if (window.XMLHttpRequest)  { ajaxRequest =new XMLHttpRequest(); }
+	else                        { ajaxRequest =new ActiveXObject("Microsoft.XMLHTTP"); }
+
+	document.getElementById("btn_wifi_cred").addEventListener("click", function(){
+		set_wifi_cred(
+		document.getElementById('wifiname').value,
+		document.getElementById('wifipwd').value);
+	});
+
+	function set_wifi_cred(wifiname, wifipwd)
+	{
+		alert("new wifi settings");
+	  if(!ajaxRequest){ alert("AJAX is not supported."); return; }
+
+	  ajaxRequest.open("POST","setWifiCred",true);
+
+	  ajaxRequest.onreadystatechange = function()
+	  {
+	    if(ajaxRequest.readyState == 4 && ajaxRequest.status==200)
+	    {
+	      var ajaxResult = ajaxRequest.responseText;
+	    }
+	  }
+		ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		//var message = msg; // msg as parameter did not work as expected
+	  ajaxRequest.send(wifiname + "=" + wifipwd);
+	}
+
+
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
