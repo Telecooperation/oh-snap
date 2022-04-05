@@ -65,7 +65,7 @@ Please cite this work like this:
 or use this
 
 <pre>
-@inbook{10.1145/3411764.3445641,
+@inproceedings{10.1145/3411764.3445641,
 author = {Schmitz, Martin and Riemann, Jan and M\"{u}ller, Florian and Kreis, Steffen and M\"{u}hlh\"{a}user, Max},
 title = {Oh, Snap! A Fabrication Pipeline to Magnetically Connect Conventional and 3D-Printed Electronics},
 year = {2021},
@@ -73,9 +73,13 @@ isbn = {9781450380966},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
 url = {https://doi.org/10.1145/3411764.3445641},
+doi = {10.1145/3411764.3445641},
 booktitle = {Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems},
 articleno = {420},
-numpages = {11}
+numpages = {11},
+keywords = {capacitive sensing, proximity, touch, prototyping, 3D printing},
+location = {Yokohama, Japan},
+series = {CHI '21}
 }
 </pre>
 
